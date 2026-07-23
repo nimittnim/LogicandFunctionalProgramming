@@ -1,2 +1,1 @@
-# COL765
-COL765: Logic and Functional Programming
+Logic and Functional Programming

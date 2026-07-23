@@ -177,7 +177,7 @@
 
   let rec print_list lst = match lst with
     | [] -> ()
-    | x :: lst' -> print_int x; print_list lst';;
+    | x :: lst' -> Printf.printf "%d\n" x; print_list lst';;
 
   let rec take n lst = 
     if (n <= 0) then [] else
@@ -194,5 +194,70 @@
       | _ :: lst' -> drop (n-1) lst';;
   
   (* print_list (drop (1) (1 :: 2 :: 3 :: []));; *)
+
+  let rec take_acc cur n lst = 
+    if n <= 0 then cur else
+      match lst with
+      | [] -> cur
+      | x :: lst' -> take_acc (x :: cur) (n-1) lst';;
+  let take_tr n lst = take_acc [] n lst;;
+
+  (* print_list (take (3) (1 :: 2 :: 3 :: 4 :: []));; *)
+
+  let rec is_mon_dec lst = match lst with
+   | [] | [_] -> true
+   | x1 :: (x2 :: lst2 as lst1) -> x1 >= x2 && is_mon_dec lst1;;  
+  let rec is_unimodal lst = match lst with
+   | [] | [_] -> true
+   | x1 :: (x2 :: lst2 as lst1) -> if x1 <= x2 then is_unimodal lst1 else is_mon_dec lst1;;
+
+  let rec powerset (lst : int list) = match lst with
+   | [] -> []
+   | x :: lst1 as lst0 -> lst0 :: lst1 :: [];;
+
+   (* print_list (1 :: 2 :: 3 :: []);; *)
+
+   let print_int_list_iter lst =
+    List.iter (fun x -> Printf.printf "%d\n" x) lst;;
+  
+  (* print_int_list_iter (1 :: 2 :: 3 :: []);; *)
+
+  (*types*)
+  type student = {first_name : string; last_name : string; gpa : float;};;
+
+  let std = {first_name="Nimitt"; last_name="Nimitt"; gpa=9.13};;
+
+  let get_name std = match std with 
+    | {first_name; last_name; gpa} -> first_name, last_name;;
+  
+  let create_student first_name last_name gpa = {first_name = first_name; last_name = last_name; gpa = gpa};;
+  
+  type poketype = Normal | Fire | Water;;
+  type pokemon = {name : string; hp : int; ptype: poketype};;
+
+  let charizard = {name="charizard"; hp=78; ptype=Fire};;
+
+  let squirtle = {name="squirtle"; hp = 44; ptype=Water};;
+
+  let safe_hd lst = match lst with
+   | [] -> None
+   | x :: _ -> Some x;;
+
+  let safe_tl lst = match lst with
+   | [] -> None
+   | _ :: lst1 -> Some lst1;;
+
+  let rec max_hp lst = match lst with 
+   | [] -> None
+   | x1 :: lst1 -> match max_hp lst1 with
+    | None -> Some x1
+    | Some x2 -> Some (if x1.hp <= x2.hp then x2 else x1);;
+
+  type date = int * int * int;;
+  let is_before (date1 : date) (date2 : date) = 
+    let (y1, m1, d1) = date1 in
+    let (y2, m2, d2) = date2 in
+    y1 < y2 || (y1 = y2 && m1 < m2) || (y1 = y2 && m1 = m2 && d1 < d2)
+
 
   
